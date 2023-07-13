@@ -1,16 +1,17 @@
 from datetime import datetime
 
 class CustomerActions:
-
-    #from iugu import Iugu
+    """
+    Actions that can be performed involving Customers
+    """
 
     def __init__(self, iugu) -> None:
-        
+
         self.iugu = iugu
 
         self.endpoint = '/customers'
 
-    def create(self, 
+    def create(self,
                email: str,
                name: str,
                notes: str = None,
@@ -26,7 +27,10 @@ class CustomerActions:
                district: str = None,
                complement: str = None,
             ):
-        
+        """
+        Creates a new Customer on Iugu.
+        """
+
         payload = {
             'email':        email,
             'name':         name,
@@ -43,16 +47,16 @@ class CustomerActions:
             'district':     district,
             'complement':   complement,
         }
-        
+
         new_customer = self.iugu.request(
                             method = 'POST',
                             url = self.endpoint,
                             json = payload
                         )
-        
+
         return new_customer
-        
-    def list(self, 
+
+    def list(self,
              limit: int = 100,
              start: int = 0,
              created_at_from: datetime = None,
@@ -60,7 +64,10 @@ class CustomerActions:
              updated_since: datetime = None,
              query: str = None
             ):
-        
+        """
+        Lists Customers base on informed conditions.
+        """
+
         query_params = {
             'limit': limit,
             'start': start,
@@ -69,11 +76,11 @@ class CustomerActions:
             'updated_since': updated_since,
             'query': query
         }
-        
+
         customers = self.iugu.request(
                             method = 'GET',
                             url = self.endpoint,
                             params = query_params
                         )
-        
+
         return customers

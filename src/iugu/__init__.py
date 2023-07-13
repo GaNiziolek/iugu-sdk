@@ -6,13 +6,18 @@ from iugu.customer import CustomerActions
 __version__ = importlib.metadata.version('iugu-sdk')
 
 class Iugu:
+    """
+    The Base class of IUGU SDK. Instantiate this to interface with IUGU.
+
+    :param str token: IUGU API Token
+    """
 
     def __init__(self, token: str) -> None:
 
         self.token = token
 
         self.base_url = 'https://api.iugu.com/v1'
-        
+
         self.default_headers = {
             "User-Agent": f"Iugu Python SDK v{__version__}",
             "Content-Type": "application/json",
@@ -22,7 +27,15 @@ class Iugu:
 
         self.customer = CustomerActions(self)
 
-    def request(self, method: str, url: str, params: dict = None, json: dict = None ) -> requests.Response:
+    def request(self,
+                method: str,
+                url: str,
+                params: dict = None,
+                json: dict = None
+            ) -> requests.Response:
+        """
+        This method can be used to make requests on IUGU REST API.
+        """
 
         if not url.startswith('/'):
             url = '/' + url
@@ -41,4 +54,3 @@ class Iugu:
         res.raise_for_status()
 
         return res.json()
-
